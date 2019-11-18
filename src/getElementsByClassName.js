@@ -6,13 +6,19 @@
 // But instead we're going to implement it from scratch:
 var getElementsByClassName = function(className) {
   var result = [];
-  var children = document.body.childNodes;
-  if(document.body.className === className)
-  	result.push(document.body);
 
-  children.forEach(function(element){
-  	if(element.className === className)
+  var findElementsWithClass = function(element){
+  	if (element.classList && element.classList.contains(className)) {
   		result.push(element);
-  })
+  	}
+
+  	if (element.childNodes) {
+  	 	element.childNodes.forEach(function(node){
+  	 		findElementsWithClass(node);
+  	 	});
+  	}
+  }
+  findElementsWithClass(document.body);
   return result;
-};
+
+}
